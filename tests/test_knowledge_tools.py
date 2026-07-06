@@ -28,3 +28,43 @@ def test_search_knowledge_base_unknown_category_returns_empty_result():
     )
 
     assert result == {"articles": [], "possible_solution": ""}
+
+
+def test_search_knowledge_base_finds_lost_mfa_device_case():
+    result = search_knowledge_base(
+        category="Acceso / autenticaci\u00f3n",
+        user_message="Perdi mi celular y no puedo usar MFA para iniciar sesion",
+    )
+
+    assert result["articles"][0]["id"] == "KB-006"
+    assert "restablecimiento de MFA" in result["possible_solution"]
+
+
+def test_search_knowledge_base_finds_printer_case():
+    result = search_knowledge_base(
+        category="Hardware",
+        user_message="No puedo imprimir en la impresora de la oficina",
+    )
+
+    assert result["articles"][0]["id"] == "KB-015"
+    assert "cola de impresion" in result["possible_solution"]
+
+
+def test_search_knowledge_base_finds_outlook_sync_case():
+    result = search_knowledge_base(
+        category="Software",
+        user_message="Outlook no sincroniza mi correo desde ayer",
+    )
+
+    assert result["articles"][0]["id"] == "KB-020"
+    assert "perfil de Outlook" in result["possible_solution"]
+
+
+def test_search_knowledge_base_finds_access_request_case():
+    result = search_knowledge_base(
+        category="Solicitud administrativa",
+        user_message="Solicito acceso al sistema financiero para cierre mensual",
+    )
+
+    assert result["articles"][0]["id"] == "KB-026"
+    assert "aprobacion del responsable" in result["possible_solution"]

@@ -1,37 +1,212 @@
 [
   {
     "id": "KB-001",
-    "category": "Acceso / autenticación",
-    "title": "Problemas comunes de autenticación",
-    "keywords": ["cuenta", "bloqueada", "contraseña", "autenticación"],
-    "content": "Verificar si la cuenta está bloqueada, si la contraseña expiró o si el usuario está usando las credenciales corporativas correctas."
-  },
-  {
-    "id": "KB-004",
-    "category": "Acceso / autenticación",
-    "title": "Problemas con MFA",
-    "keywords": ["mfa", "2fa", "token", "sesión"],
-    "content": "Validar que el MFA esté registrado correctamente, revisar la hora del dispositivo, confirmar el método configurado y generar un nuevo desafío de inicio de sesión."
+    "category": "Acceso / autenticaci\u00f3n",
+    "title": "Cuenta bloqueada o credenciales invalidas",
+    "keywords": ["cuenta", "bloqueada", "bloqueo", "credenciales", "login", "acceder"],
+    "content": "Validar si la cuenta esta bloqueada, confirmar que el usuario use credenciales corporativas y solicitar desbloqueo por el canal autorizado si aplica."
   },
   {
     "id": "KB-002",
     "category": "Red / conectividad",
-    "title": "Problemas de conexión VPN",
-    "keywords": ["vpn", "conexión", "internet", "red"],
-    "content": "Validar conexión a internet, estado del cliente VPN y credenciales corporativas. Reiniciar el cliente VPN si el túnel no se establece."
+    "title": "Problemas de conexion VPN",
+    "keywords": ["vpn", "conexion", "internet", "red", "tunel", "cliente vpn"],
+    "content": "Validar conexion a internet, estado del cliente VPN, credenciales corporativas y reiniciar el cliente si el tunel no se establece."
   },
   {
     "id": "KB-003",
     "category": "Hardware",
-    "title": "Problemas con periféricos",
-    "keywords": ["periférico", "teclado", "mouse", "monitor", "driver"],
-    "content": "Validar conexión física, drivers instalados y estado del dispositivo en el administrador de dispositivos."
+    "title": "Problemas con perifericos",
+    "keywords": ["periferico", "teclado", "mouse", "monitor", "driver", "usb"],
+    "content": "Validar conexion fisica, probar otro puerto, revisar drivers instalados y confirmar el estado del dispositivo en el administrador de dispositivos."
+  },
+  {
+    "id": "KB-004",
+    "category": "Acceso / autenticaci\u00f3n",
+    "title": "Problemas con MFA",
+    "keywords": ["mfa", "2fa", "token", "sesion", "sesi\u00f3n", "iniciar", "funciona", "autenticador"],
+    "content": "Validar que el MFA este registrado correctamente, revisar la hora del dispositivo, confirmar el metodo configurado y generar un nuevo desafio de inicio de sesion."
   },
   {
     "id": "KB-005",
     "category": "Software",
     "title": "Problemas con aplicaciones corporativas",
-    "keywords": ["aplicación", "software", "permisos", "error"],
-    "content": "Validar versión instalada, permisos asignados, errores recientes y reinicio de la aplicación corporativa afectada."
+    "keywords": ["aplicacion", "software", "permisos", "error", "programa"],
+    "content": "Validar version instalada, permisos asignados, errores recientes y reinicio de la aplicacion corporativa afectada."
+  },
+  {
+    "id": "KB-006",
+    "category": "Acceso / autenticaci\u00f3n",
+    "title": "Dispositivo MFA perdido o cambiado",
+    "keywords": ["mfa", "celular", "telefono", "perdi", "perdido", "dispositivo", "autenticador"],
+    "content": "Iniciar restablecimiento de MFA previa validacion de identidad, revocar el dispositivo anterior y registrar un nuevo metodo autorizado."
+  },
+  {
+    "id": "KB-007",
+    "category": "Acceso / autenticaci\u00f3n",
+    "title": "Contrasena expirada",
+    "keywords": ["contrasena", "expirada", "vencida", "cambiar", "password"],
+    "content": "Guiar al usuario al portal corporativo de cambio de contrasena, verificar politicas de complejidad y recomendar cerrar sesiones antiguas."
+  },
+  {
+    "id": "KB-008",
+    "category": "Acceso / autenticaci\u00f3n",
+    "title": "Sesion SSO no inicia",
+    "keywords": ["sso", "sesion", "single sign on", "navegador", "cookies"],
+    "content": "Limpiar cookies del dominio corporativo, cerrar sesiones abiertas, probar modo privado y validar que el usuario tenga acceso asignado a la aplicacion."
+  },
+  {
+    "id": "KB-009",
+    "category": "Red / conectividad",
+    "title": "Wi-Fi corporativo no conecta",
+    "keywords": ["wifi", "wi-fi", "inalambrica", "ssid", "red corporativa"],
+    "content": "Confirmar cobertura, olvidar y volver a registrar la red, validar certificado corporativo y probar conexion con otro dispositivo cercano."
+  },
+  {
+    "id": "KB-010",
+    "category": "Red / conectividad",
+    "title": "Internet lento o intermitente",
+    "keywords": ["lento", "intermitente", "latencia", "cortes", "internet", "velocidad"],
+    "content": "Medir latencia, validar si el impacto es individual o masivo, reiniciar adaptador de red y escalar si existen cortes recurrentes."
+  },
+  {
+    "id": "KB-011",
+    "category": "Red / conectividad",
+    "title": "Problemas de DNS",
+    "keywords": ["dns", "nombre", "dominio", "resolver", "pagina no carga"],
+    "content": "Probar acceso por IP, limpiar cache DNS, validar servidores DNS corporativos y revisar si el dominio afectado esta disponible."
+  },
+  {
+    "id": "KB-012",
+    "category": "Red / conectividad",
+    "title": "Carpeta compartida no disponible",
+    "keywords": ["carpeta", "compartida", "unidad", "archivo", "red", "mapear"],
+    "content": "Validar conexion a red o VPN, verificar permisos sobre la carpeta, remapear la unidad y confirmar que el servidor de archivos este activo."
+  },
+  {
+    "id": "KB-013",
+    "category": "Hardware",
+    "title": "Monitor sin imagen",
+    "keywords": ["monitor", "pantalla", "imagen", "hdmi", "displayport", "proyector"],
+    "content": "Verificar energia del monitor, cable de video, fuente de entrada, combinacion de pantalla extendida y probar con otro cable disponible."
+  },
+  {
+    "id": "KB-014",
+    "category": "Hardware",
+    "title": "Laptop con bateria o carga defectuosa",
+    "keywords": ["laptop", "bateria", "cargador", "energia", "carga", "apagado"],
+    "content": "Revisar cargador, puerto de energia, estado de bateria, eventos de apagado y solicitar diagnostico fisico si el equipo no retiene carga."
+  },
+  {
+    "id": "KB-015",
+    "category": "Hardware",
+    "title": "Impresora no imprime",
+    "keywords": ["impresora", "imprimir", "impresion", "cola", "papel", "toner"],
+    "content": "Validar conexion de la impresora, revisar papel o toner, limpiar la cola de impresion, reiniciar el servicio de impresion y probar una pagina de prueba."
+  },
+  {
+    "id": "KB-016",
+    "category": "Hardware",
+    "title": "Camara o microfono no funciona",
+    "keywords": ["camara", "microfono", "audio", "videollamada", "teams", "zoom"],
+    "content": "Revisar permisos de camara y microfono, seleccionar el dispositivo correcto en la aplicacion y probar el hardware desde configuracion del sistema."
+  },
+  {
+    "id": "KB-017",
+    "category": "Software",
+    "title": "Aplicacion no abre o se cierra",
+    "keywords": ["aplicacion", "no abre", "se cierra", "crash", "error", "programa"],
+    "content": "Reiniciar la aplicacion, revisar actualizaciones pendientes, limpiar cache local si aplica y reinstalar solo cuando el error persista."
+  },
+  {
+    "id": "KB-018",
+    "category": "Software",
+    "title": "Microsoft Teams con audio o reunion fallida",
+    "keywords": ["teams", "reunion", "audio", "microfono", "camara", "llamada"],
+    "content": "Cerrar Teams completamente, limpiar cache de la aplicacion, validar dispositivo de audio y probar ingreso a la reunion desde navegador."
+  },
+  {
+    "id": "KB-019",
+    "category": "Software",
+    "title": "Office solicita activacion",
+    "keywords": ["office", "licencia", "activacion", "word", "excel", "powerpoint"],
+    "content": "Confirmar licencia asignada, cerrar sesion de Office, iniciar sesion con cuenta corporativa y ejecutar reparacion rapida si la activacion no se actualiza."
+  },
+  {
+    "id": "KB-020",
+    "category": "Software",
+    "title": "Outlook no sincroniza correo",
+    "keywords": ["outlook", "correo", "sincroniza", "bandeja", "exchange", "mail"],
+    "content": "Validar conexion, revisar modo sin conexion, actualizar credenciales, reconstruir el perfil de Outlook si la bandeja no sincroniza y confirmar estado del servicio."
+  },
+  {
+    "id": "KB-021",
+    "category": "Software",
+    "title": "Navegador con error en aplicacion web",
+    "keywords": ["navegador", "chrome", "edge", "cache", "cookies", "web"],
+    "content": "Limpiar cache y cookies del sitio, probar otro navegador, validar extensiones que bloqueen la pagina y confirmar permisos del usuario en la aplicacion web."
+  },
+  {
+    "id": "KB-022",
+    "category": "Software",
+    "title": "Actualizacion de software fallida",
+    "keywords": ["actualizacion", "update", "parche", "instalacion", "fallida"],
+    "content": "Verificar espacio en disco, reiniciar el equipo, ejecutar nuevamente la actualizacion y revisar logs de instalacion si el error se repite."
+  },
+  {
+    "id": "KB-023",
+    "category": "Solicitud administrativa",
+    "title": "Solicitud de instalacion de software",
+    "keywords": ["instalar", "instalacion", "software", "licencia", "aprobacion"],
+    "content": "Registrar la solicitud con nombre del software, justificacion, licencia requerida y aprobacion del responsable antes de instalar."
+  },
+  {
+    "id": "KB-024",
+    "category": "Solicitud administrativa",
+    "title": "Alta o baja de usuario",
+    "keywords": ["alta", "baja", "usuario", "onboarding", "offboarding", "cuenta"],
+    "content": "Validar formulario de alta o baja, fecha efectiva, jefe responsable, accesos requeridos y aprobaciones de recursos humanos o seguridad."
+  },
+  {
+    "id": "KB-025",
+    "category": "Solicitud administrativa",
+    "title": "Prestamo o cambio de equipo",
+    "keywords": ["equipo", "laptop", "prestamo", "cambio", "renovacion", "asignacion"],
+    "content": "Registrar motivo, usuario responsable, fecha requerida, inventario disponible y aprobacion del area antes de asignar o cambiar el equipo."
+  },
+  {
+    "id": "KB-026",
+    "category": "Solicitud administrativa",
+    "title": "Acceso a sistema corporativo",
+    "keywords": ["solicito acceso", "acceso", "sistema", "financiero", "erp", "permisos"],
+    "content": "Solicitar aprobacion del responsable del sistema, rol requerido, vigencia del acceso y evidencia de necesidad operativa antes de habilitar permisos."
+  },
+  {
+    "id": "KB-027",
+    "category": "Solicitud administrativa",
+    "title": "Creacion de lista o buzon compartido",
+    "keywords": ["buzon", "lista", "correo compartido", "grupo", "distribucion"],
+    "content": "Registrar nombre solicitado, propietarios, miembros iniciales, permisos requeridos y aprobacion del area responsable."
+  },
+  {
+    "id": "KB-028",
+    "category": "Acceso / autenticaci\u00f3n",
+    "title": "Intento de acceso sospechoso",
+    "keywords": ["sospechoso", "phishing", "seguridad", "inicio de sesion", "alerta"],
+    "content": "Indicar al usuario que no comparta credenciales, cambiar contrasena desde el portal oficial, revisar sesiones activas y escalar al equipo de seguridad."
+  },
+  {
+    "id": "KB-029",
+    "category": "Software",
+    "title": "ERP o sistema financiero lento",
+    "keywords": ["erp", "financiero", "lento", "sistema", "cierre mensual"],
+    "content": "Validar si el problema afecta a mas usuarios, revisar navegador recomendado, cerrar sesiones duplicadas y escalar si coincide con procesos masivos."
+  },
+  {
+    "id": "KB-030",
+    "category": "Red / conectividad",
+    "title": "Sin acceso a recursos internos desde VPN",
+    "keywords": ["vpn", "intranet", "recursos internos", "servidor", "aplicacion interna"],
+    "content": "Confirmar que la VPN este conectada, revisar rutas internas, renovar conexion y validar si el usuario pertenece al grupo de acceso correcto."
   }
 ]

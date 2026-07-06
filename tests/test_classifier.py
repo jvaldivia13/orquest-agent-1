@@ -22,6 +22,18 @@ def test_classifier_vpn_request():
     assert result["category"] == "Red / conectividad"
 
 
+def test_classifier_printer_request():
+    result = classifier_node({"user_message": "No puedo imprimir en la impresora"})
+
+    assert result["category"] == "Hardware"
+
+
+def test_classifier_outlook_request():
+    result = classifier_node({"user_message": "Outlook no sincroniza mi correo"})
+
+    assert result["category"] == "Software"
+
+
 def test_classifier_high_priority_for_massive_impact():
     result = classifier_node(
         {"user_message": "Toda la oficina está sin internet y no podemos trabajar"}

@@ -6,7 +6,7 @@ from llm.deepseek_client import get_deepseek_reasoner
 
 
 ALLOWED_CATEGORIES = {
-    "Acceso / autenticación",
+    "Acceso / autenticaci\u00f3n",
     "Red / conectividad",
     "Hardware",
     "Software",
@@ -21,20 +21,53 @@ def _fallback_classification(user_message: str) -> dict[str, str]:
     message = user_message.lower()
     category = "Otro"
 
-    if any(term in message for term in ("login", "contraseña", "mfa", "cuenta", "sesión")):
-        category = "Acceso / autenticación"
-    elif any(term in message for term in ("vpn", "wi-fi", "wifi", "conexión", "internet", "red")):
+    if any(
+        term in message
+        for term in ("login", "contrase\u00f1a", "mfa", "cuenta", "sesi\u00f3n")
+    ):
+        category = "Acceso / autenticaci\u00f3n"
+    elif any(
+        term in message for term in ("vpn", "wi-fi", "wifi", "conexi\u00f3n", "internet", "red")
+    ):
         category = "Red / conectividad"
-    elif any(term in message for term in ("laptop", "monitor", "teclado", "mouse", "pantalla")):
+    elif any(
+        term in message
+        for term in (
+            "laptop",
+            "monitor",
+            "teclado",
+            "mouse",
+            "pantalla",
+            "impresora",
+            "imprimir",
+        )
+    ):
         category = "Hardware"
-    elif any(term in message for term in ("aplicación", "instalación", "software", "programa", "error")):
+    elif any(
+        term in message
+        for term in (
+            "aplicaci\u00f3n",
+            "instalaci\u00f3n",
+            "software",
+            "programa",
+            "error",
+            "outlook",
+            "correo",
+            "teams",
+            "office",
+        )
+    ):
         category = "Software"
-    elif any(term in message for term in ("permiso", "aprobación", "solicito acceso")):
+    elif any(
+        term in message for term in ("permiso", "aprobaci\u00f3n", "solicito acceso")
+    ):
         category = "Solicitud administrativa"
 
-    priority = "Alta" if any(
-        term in message for term in ("toda la oficina", "masivo", "crítico", "urgente")
-    ) else "Media"
+    priority = (
+        "Alta"
+        if any(term in message for term in ("toda la oficina", "masivo", "cr\u00edtico", "urgente"))
+        else "Media"
+    )
     return {"category": category, "priority": priority}
 
 
@@ -45,7 +78,7 @@ def classify_support_request(user_message: str) -> dict[str, str]:
     prompt = (
         "Clasifica el requerimiento de soporte TI. "
         "Devuelve solo JSON con keys category y priority. "
-        "Categorías permitidas: Acceso / autenticación, Red / conectividad, Hardware, "
+        "Categorias permitidas: Acceso / autenticacion, Red / conectividad, Hardware, "
         "Software, Solicitud administrativa, Otro. Prioridades: Baja, Media, Alta. "
         f"Mensaje: {user_message}"
     )
