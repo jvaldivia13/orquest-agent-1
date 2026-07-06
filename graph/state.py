@@ -8,6 +8,9 @@ class SupportState(TypedDict, total=False):
     category: str
     priority: str
     requires_ticket: bool
+    needs_more_info: bool
+    clarifying_question: Optional[str]
+    resolution_decision: str
 
     knowledge_results: List[str]
     possible_solution: str
@@ -20,5 +23,8 @@ class SupportState(TypedDict, total=False):
 
     validation_status: bool
     validation_feedback: Optional[str]
+    validation_retry_count: int
+    max_validation_retries: int
 
     error_message: Optional[str]
+    interaction_logged: bool
