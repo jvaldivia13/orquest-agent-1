@@ -1,4 +1,12 @@
+import pytest
+
+from app.config import settings
 from graph.support_graph import support_graph
+
+
+@pytest.fixture(autouse=True)
+def force_local_fallback(monkeypatch):
+    monkeypatch.setattr(settings, "DEEPSEEK_API_KEY", "")
 
 
 def test_graph_returns_final_response_for_known_solution():
