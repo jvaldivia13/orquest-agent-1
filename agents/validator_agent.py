@@ -7,7 +7,7 @@ def _fail(state: SupportState, feedback: str) -> SupportState:
     state["validation_retry_count"] = retry_count
     state["validation_feedback"] = feedback
 
-    if retry_count > max_retries:
+    if retry_count >= max_retries:
         state["validation_status"] = True
         state["final_response"] = (
             "No pudimos construir una respuesta validada automáticamente. "

@@ -35,7 +35,7 @@ def test_validator_stops_with_controlled_response_after_max_retries():
         {
             "draft_response": "",
             "requires_ticket": False,
-            "validation_retry_count": 2,
+            "validation_retry_count": 1,
             "max_validation_retries": 2,
         }
     )
