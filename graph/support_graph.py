@@ -8,6 +8,13 @@ from agents.ticketing_agent import ticketing_node
 from agents.validator_agent import validator_node
 from graph.routing import route_after_resolver, route_after_validator
 from graph.state import SupportState
+from tools.logging_tools import append_interaction_log
+
+
+def log_interaction_node(state: SupportState) -> SupportState:
+    append_interaction_log(state)
+    state["interaction_logged"] = True
+    return state
 
 
 workflow = StateGraph(SupportState)
@@ -18,6 +25,7 @@ workflow.add_node("resolver", resolver_node)
 workflow.add_node("ticketing", ticketing_node)
 workflow.add_node("response", response_node)
 workflow.add_node("validator", validator_node)
+workflow.add_node("log_interaction", log_interaction_node)
 
 workflow.set_entry_point("classifier")
 
@@ -37,9 +45,10 @@ workflow.add_conditional_edges(
     "validator",
     route_after_validator,
     {
-        END: END,
         "response": "response",
+        "log_interaction": "log_interaction",
     },
 )
+workflow.add_edge("log_interaction", END)
 
 support_graph = workflow.compile()
