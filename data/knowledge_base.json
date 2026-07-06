@@ -3,24 +3,35 @@
     "id": "KB-001",
     "category": "Acceso / autenticación",
     "title": "Problemas comunes de autenticación",
-    "content": "Verificar si la cuenta está bloqueada, si la contraseña expiró o si el MFA está activo."
+    "keywords": ["cuenta", "bloqueada", "contraseña", "autenticación"],
+    "content": "Verificar si la cuenta está bloqueada, si la contraseña expiró o si el usuario está usando las credenciales corporativas correctas."
+  },
+  {
+    "id": "KB-004",
+    "category": "Acceso / autenticación",
+    "title": "Problemas con MFA",
+    "keywords": ["mfa", "2fa", "token", "sesión"],
+    "content": "Validar que el MFA esté registrado correctamente, revisar la hora del dispositivo, confirmar el método configurado y generar un nuevo desafío de inicio de sesión."
   },
   {
     "id": "KB-002",
     "category": "Red / conectividad",
     "title": "Problemas de conexión VPN",
-    "content": "Validar conexión a internet, estado del cliente VPN y credenciales corporativas."
+    "keywords": ["vpn", "conexión", "internet", "red"],
+    "content": "Validar conexión a internet, estado del cliente VPN y credenciales corporativas. Reiniciar el cliente VPN si el túnel no se establece."
   },
   {
     "id": "KB-003",
     "category": "Hardware",
     "title": "Problemas con periféricos",
+    "keywords": ["periférico", "teclado", "mouse", "monitor", "driver"],
     "content": "Validar conexión física, drivers instalados y estado del dispositivo en el administrador de dispositivos."
   },
   {
-    "id": "KB-004",
+    "id": "KB-005",
     "category": "Software",
     "title": "Problemas con aplicaciones corporativas",
-    "content": "Validar versión instalada, permisos, errores recientes y reinicio de la aplicación."
+    "keywords": ["aplicación", "software", "permisos", "error"],
+    "content": "Validar versión instalada, permisos asignados, errores recientes y reinicio de la aplicación corporativa afectada."
   }
 ]
