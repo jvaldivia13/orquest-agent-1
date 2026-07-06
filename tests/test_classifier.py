@@ -1,4 +1,12 @@
+import pytest
+
 from agents.classifier_agent import classifier_node
+from app.config import settings
+
+
+@pytest.fixture(autouse=True)
+def force_local_fallback(monkeypatch):
+    monkeypatch.setattr(settings, "DEEPSEEK_API_KEY", "")
 
 
 def test_classifier_access_request():
