@@ -2,6 +2,14 @@ from graph.state import SupportState
 
 
 def response_node(state: SupportState) -> SupportState:
+    if state.get("needs_more_info"):
+        question = state.get("clarifying_question") or "¿Puedes compartir más detalle del problema?"
+        state["draft_response"] = (
+            "Para ayudarte correctamente, necesitamos un poco más de información.\n\n"
+            f"{question}"
+        )
+        return state
+
     category = state.get("category", "Otro")
     possible_solution = state.get("possible_solution", "")
     requires_ticket = state.get("requires_ticket", False)
