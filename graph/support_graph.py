@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from langgraph.graph import END, StateGraph
 
 from agents.classifier_agent import classifier_node
@@ -11,6 +13,12 @@ from graph.state import SupportState
 from tools.logging_tools import append_interaction_log
 
 
+def initialize_request_node(state: SupportState) -> SupportState:
+    if not state.get("request_id"):
+        state["request_id"] = f"REQ-{datetime.now().strftime('%Y%m%d%H%M%S%f')}"
+    return state
+
+
 def log_interaction_node(state: SupportState) -> SupportState:
     append_interaction_log(state)
     state["interaction_logged"] = True
@@ -19,6 +27,7 @@ def log_interaction_node(state: SupportState) -> SupportState:
 
 workflow = StateGraph(SupportState)
 
+workflow.add_node("initialize_request", initialize_request_node)
 workflow.add_node("classifier", classifier_node)
 workflow.add_node("knowledge", knowledge_node)
 workflow.add_node("resolver", resolver_node)
@@ -27,8 +36,9 @@ workflow.add_node("response", response_node)
 workflow.add_node("validator", validator_node)
 workflow.add_node("log_interaction", log_interaction_node)
 
-workflow.set_entry_point("classifier")
+workflow.set_entry_point("initialize_request")
 
+workflow.add_edge("initialize_request", "classifier")
 workflow.add_edge("classifier", "knowledge")
 workflow.add_edge("knowledge", "resolver")
 workflow.add_conditional_edges(

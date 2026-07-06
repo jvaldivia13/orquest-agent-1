@@ -12,6 +12,8 @@ def force_local_fallback(monkeypatch):
 def test_graph_returns_final_response_for_known_solution():
     result = support_graph.invoke({"user_message": "No puedo conectarme a la VPN"})
 
+    assert result["request_id"].startswith("REQ-")
+    assert result["interaction_logged"] is True
     assert result["final_response"]
     assert result["category"] == "Red / conectividad"
     assert result["requires_ticket"] is False

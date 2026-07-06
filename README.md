@@ -23,7 +23,7 @@ Configura `DEEPSEEK_API_KEY` en `.env`.
 ## Ejecución por consola
 
 ```bash
-python app/main.py
+python -m app.main
 ```
 
 ## Pruebas

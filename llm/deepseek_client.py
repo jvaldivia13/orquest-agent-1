@@ -10,6 +10,6 @@ def get_deepseek_reasoner() -> ChatDeepSeek:
     return ChatDeepSeek(
         model=settings.DEEPSEEK_MODEL,
         api_key=settings.DEEPSEEK_API_KEY,
-        api_base=settings.DEEPSEEK_API_BASE,
+        base_url=settings.DEEPSEEK_API_BASE,
         temperature=0,
     )
