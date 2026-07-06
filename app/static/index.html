@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agentic Support Orchestrator</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="workspace" aria-labelledby="page-title">
+        <div class="intro">
+          <p class="eyebrow">API local: /support/request</p>
+          <h1 id="page-title">Agentic Support Orchestrator</h1>
+          <p class="summary">
+            Prueba el flujo de clasificacion, busqueda de conocimiento, resolucion y ticketing desde el navegador.
+          </p>
+        </div>
+
+        <form id="support-form" class="panel">
+          <label for="message">Requerimiento de soporte</label>
+          <textarea
+            id="message"
+            name="message"
+            maxlength="2000"
+            rows="7"
+            placeholder="Ejemplo: No puedo conectarme a la VPN desde mi laptop"
+            required
+          ></textarea>
+          <div class="actions">
+            <span id="char-count">0/2000</span>
+            <button id="submit-button" type="submit">Enviar</button>
+          </div>
+        </form>
+
+        <section class="panel result-panel" aria-live="polite">
+          <div class="result-header">
+            <h2>Resultado</h2>
+            <span id="status" class="status">Listo</span>
+          </div>
+          <dl class="metadata">
+            <div>
+              <dt>Categoria</dt>
+              <dd id="category">-</dd>
+            </div>
+            <div>
+              <dt>Prioridad</dt>
+              <dd id="priority">-</dd>
+            </div>
+            <div>
+              <dt>Ticket</dt>
+              <dd id="ticket">-</dd>
+            </div>
+          </dl>
+          <pre id="response" class="response">La respuesta de la API aparecera aqui.</pre>
+        </section>
+      </section>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

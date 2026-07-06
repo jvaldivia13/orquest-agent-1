@@ -39,8 +39,22 @@ python -m compileall app graph agents llm tools prompts tests
 uvicorn app.api:app --reload --host 0.0.0.0 --port 8000
 ```
 
+Frontend de prueba:
+
+```text
+http://localhost:8000/
+```
+
+Documentacion interactiva:
+
+```text
+http://localhost:8000/docs
+```
+
 ## Docker
 
 ```bash
 docker compose up --build
 ```
+
+Con Docker, el frontend queda disponible en `http://localhost:8000/`.

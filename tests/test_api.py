@@ -32,6 +32,14 @@ def test_support_request_returns_response():
     assert body["response"]
 
 
+def test_root_serves_frontend():
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert "Agentic Support Orchestrator" in response.text
+    assert "/support/request" in response.text
+
+
 def test_cli_rejects_empty_message(monkeypatch, capsys):
     def fail_if_invoked(_state):
         raise AssertionError("support graph should not be invoked")
