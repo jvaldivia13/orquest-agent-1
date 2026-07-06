@@ -6,4 +6,5 @@ __pycache__/
 .DS_Store
 logs/*.log
 logs/*.jsonl
+logs/interactions.jsonl
 .worktrees/

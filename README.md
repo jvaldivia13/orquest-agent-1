@@ -1,6 +1,7 @@
 # Agentic Support Orchestrator
 
 Prototipo local para orquestar agentes de soporte TI con LangGraph, LangChain y DeepSeek Reasoner.
+La aplicacion puede ejecutarse localmente o con Docker; solo el modelo de IA usa la API de DeepSeek mediante `DEEPSEEK_API_KEY`.
 
 ## Requisitos
 
@@ -25,7 +26,14 @@ Configura `DEEPSEEK_API_KEY` en `.env`.
 python app/main.py
 ```
 
-## Ejecución API local
+## Pruebas
+
+```bash
+python -m pytest -q
+python -m compileall app graph agents llm tools prompts tests
+```
+
+## API local
 
 ```bash
 uvicorn app.api:app --reload --host 0.0.0.0 --port 8000
@@ -35,10 +43,4 @@ uvicorn app.api:app --reload --host 0.0.0.0 --port 8000
 
 ```bash
 docker compose up --build
-```
-
-## Tests
-
-```bash
-pytest
 ```
