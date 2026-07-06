@@ -49,7 +49,9 @@ Esto significa que los siguientes componentes serán locales:
 - Logs.
 - Tests.
 
-El modelo razonador será DeepSeek. Para consumirlo, se utilizará una API Key de DeepSeek mediante variables de entorno, salvo que se configure en el futuro un endpoint compatible local.
+El modelo razonador será DeepSeek. Para consumirlo, se utilizará la **API de DeepSeek** mediante una API Key configurada en variables de entorno.
+
+Por ahora, solo la invocación al modelo de IA dependerá de un servicio externo. El resto de componentes deberá correr localmente o dentro de Docker: aplicación Python, API local, orquestación LangGraph, tools, base de conocimiento, ticketing simulado, logs y tests.
 
 ---
 
@@ -1191,7 +1193,7 @@ Acción: Solicitar mayor información
 
 | ID | Requerimiento | Descripción |
 |---|---|---|
-| RNF-001 | Ejecución local | La aplicación deberá ejecutarse sin infraestructura cloud. |
+| RNF-001 | Ejecución local | La aplicación, la orquestación, las tools, la base de conocimiento, el ticketing simulado, los logs y las pruebas deberán ejecutarse localmente o en Docker. |
 | RNF-002 | Dockerización | La aplicación deberá ejecutarse mediante Docker. |
 | RNF-003 | Modularidad | Cada agente deberá estar implementado como módulo independiente. |
 | RNF-004 | Extensibilidad | El grafo deberá permitir agregar nuevos nodos. |
@@ -1200,7 +1202,7 @@ Acción: Solicitar mayor información
 | RNF-007 | Tolerancia a errores | El sistema deberá manejar fallas de LLM y tools. |
 | RNF-008 | Testabilidad | Los nodos y tools deberán probarse individualmente. |
 | RNF-009 | Observabilidad básica | El flujo deberá registrar logs locales. |
-| RNF-010 | Bajo acoplamiento | Los nodos no deberán depender directamente de servicios cloud. |
+| RNF-010 | Bajo acoplamiento | Solo el cliente LLM deberá depender directamente de la API de DeepSeek; los nodos deberán consumirlo mediante una abstracción local. |
 | RNF-011 | Portabilidad | El proyecto deberá funcionar en Windows, Linux o Docker. |
 | RNF-012 | Mantenibilidad | El código deberá estar separado por responsabilidades. |
 

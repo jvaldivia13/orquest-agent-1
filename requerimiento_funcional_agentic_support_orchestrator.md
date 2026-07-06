@@ -28,6 +28,8 @@ La solución usará:
 
 La solución deberá correr en ambiente **local** o mediante **Docker**. No se requiere Azure, AWS, GCP ni otro servicio cloud para alojar la aplicación.
 
+Se aclara que el **modelo de IA será consumido mediante la API de DeepSeek**. El resto de componentes de la solución deberá ejecutarse localmente por ahora: código Python, orquestación LangGraph, base de conocimiento, tools, ticketing simulado, logs, pruebas, consola y API local opcional.
+
 ---
 
 ## 3. Descripción general de la solución
@@ -516,9 +518,10 @@ La solución será aceptada cuando:
 3. El ticketing será simulado.
 4. DeepSeek Reasoner será usado como modelo razonador.
 5. La aplicación correrá localmente o en Docker.
-6. Se contará con una API Key de DeepSeek para invocar el modelo, salvo que se configure un endpoint compatible local.
-7. No se requiere autenticación para el prototipo inicial.
-8. El objetivo es demostrar orquestación de agentes, no construir una mesa de ayuda productiva.
+6. El modelo de IA se consumirá mediante la API de DeepSeek usando una API Key configurada en variables de entorno.
+7. Salvo la invocación al modelo DeepSeek, todos los componentes del prototipo correrán localmente por ahora.
+8. No se requiere autenticación para el prototipo inicial.
+9. El objetivo es demostrar orquestación de agentes, no construir una mesa de ayuda productiva.
 
 ---
 

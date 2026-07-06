@@ -1,0 +1,8 @@
+langchain
+langgraph
+langchain-deepseek
+python-dotenv
+pydantic
+fastapi
+uvicorn
+pytest
