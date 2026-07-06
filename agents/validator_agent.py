@@ -32,7 +32,10 @@ def validator_node(state: SupportState) -> SupportState:
     if "contraseña" in draft_response.lower() and "comparte" in draft_response.lower():
         return _fail(state, "La respuesta podría solicitar datos sensibles.")
 
-    if requires_ticket and ticket_id and ticket_id not in draft_response:
+    if requires_ticket and not ticket_id:
+        return _fail(state, "La respuesta requiere ticket, pero no existe ticket generado.")
+
+    if requires_ticket and ticket_id not in draft_response:
         return _fail(state, "La respuesta no incluye el ticket generado.")
 
     state["validation_status"] = True

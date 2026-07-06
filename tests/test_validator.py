@@ -21,7 +21,6 @@ def test_validator_fails_without_required_ticket_id_and_increments_retry():
         {
             "draft_response": "Se ha generado el ticket simulado.",
             "requires_ticket": True,
-            "ticket_id": "INC-9",
             "validation_retry_count": 0,
             "max_validation_retries": 2,
         }
