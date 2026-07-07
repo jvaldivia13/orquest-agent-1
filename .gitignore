@@ -8,3 +8,4 @@ logs/*.log
 logs/*.jsonl
 logs/interactions.jsonl
 .worktrees/
+data/vector_store/

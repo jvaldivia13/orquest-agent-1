@@ -2,6 +2,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from rag.retriever import retrieve_relevant_context
+
 
 EMPTY_RESULT = {"articles": [], "possible_solution": ""}
 
@@ -21,6 +23,10 @@ def _score_article(article: dict[str, Any], user_message: str) -> int:
 
 
 def search_knowledge_base(category: str, user_message: str) -> dict[str, Any]:
+    rag_result = retrieve_relevant_context(category=category, user_message=user_message)
+    if rag_result.get("articles"):
+        return rag_result
+
     kb_path = Path("data/knowledge_base.json")
     if not kb_path.exists():
         return EMPTY_RESULT
@@ -54,4 +60,5 @@ def search_knowledge_base(category: str, user_message: str) -> dict[str, Any]:
     return {
         "articles": ranked,
         "possible_solution": str(ranked[0].get("content", "")),
+        "retrieval_mode": "keyword",
     }

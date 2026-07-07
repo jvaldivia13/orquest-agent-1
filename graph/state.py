@@ -1,4 +1,4 @@
-from typing import List, Optional, TypedDict
+from typing import Any, List, Optional, TypedDict
 
 
 class SupportState(TypedDict, total=False):
@@ -13,7 +13,9 @@ class SupportState(TypedDict, total=False):
     resolution_decision: str
 
     knowledge_results: List[str]
+    knowledge_sources: List[dict[str, Any]]
     possible_solution: str
+    retrieval_mode: str
 
     ticket_id: Optional[str]
     ticket_status: Optional[str]

@@ -9,6 +9,7 @@ const categoryEl = document.querySelector("#category");
 const priorityEl = document.querySelector("#priority");
 const ticketEl = document.querySelector("#ticket");
 const responseEl = document.querySelector("#response");
+const sourcesList = document.querySelector("#sources-list");
 const historyList = document.querySelector("#history-list");
 const quickCases = document.querySelectorAll(".quick-case");
 
@@ -37,6 +38,7 @@ function renderResult(data) {
     ? data.ticket_id || "Requerido"
     : "No requerido";
   responseEl.textContent = data.response || "La API no devolvio una respuesta.";
+  renderSources(data.knowledge_results || [], data.retrieval_mode || "keyword");
 }
 
 function renderError(error) {
@@ -44,6 +46,24 @@ function renderError(error) {
   priorityEl.textContent = "-";
   ticketEl.textContent = "-";
   responseEl.textContent = error.message || "No se pudo completar la solicitud.";
+  renderSources([]);
+}
+
+function renderSources(sources, retrievalMode = "keyword") {
+  sourcesList.innerHTML = "";
+
+  if (!sources.length) {
+    const empty = document.createElement("li");
+    empty.textContent = "No hay fuentes recuperadas todavia.";
+    sourcesList.appendChild(empty);
+    return;
+  }
+
+  sources.slice(0, 3).forEach((source) => {
+    const item = document.createElement("li");
+    item.textContent = `${source} / modo: ${retrievalMode}`;
+    sourcesList.appendChild(item);
+  });
 }
 
 function renderHistory() {
@@ -137,4 +157,5 @@ form.addEventListener("submit", async (event) => {
 });
 
 updateCount();
+renderSources([]);
 renderHistory();

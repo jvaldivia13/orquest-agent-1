@@ -30,6 +30,7 @@ def test_support_request_returns_response():
     body = response.json()
     assert body["category"] == "Red / conectividad"
     assert body["response"]
+    assert body["knowledge_results"]
 
 
 def test_root_serves_frontend():
@@ -47,6 +48,7 @@ def test_root_serves_professional_testing_console():
     assert "Consola de soporte" in response.text
     assert "Casos rapidos" in response.text
     assert "Historial de sesion" in response.text
+    assert "Fuentes recuperadas" in response.text
 
 
 def test_cli_rejects_empty_message(monkeypatch, capsys):

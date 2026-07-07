@@ -12,6 +12,8 @@ def test_runtime_dependencies_are_pinned():
         "fastapi",
         "uvicorn",
         "pytest",
+        "chromadb",
+        "sentence-transformers",
     ]
 
     for package in runtime_packages:

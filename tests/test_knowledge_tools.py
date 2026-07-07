@@ -11,6 +11,34 @@ def test_search_knowledge_base_by_category():
     assert result["possible_solution"]
 
 
+def test_search_knowledge_base_uses_rag_context_when_available(monkeypatch):
+    monkeypatch.setattr(
+        "tools.knowledge_tools.retrieve_relevant_context",
+        lambda category, user_message: {
+            "articles": [
+                {
+                    "id": "KB-RAG",
+                    "category": category,
+                    "title": "Resultado semantico",
+                    "content": "Solucion recuperada por RAG.",
+                    "score": 0.91,
+                }
+            ],
+            "possible_solution": "Solucion recuperada por RAG.",
+            "retrieval_mode": "vector",
+        },
+    )
+
+    result = search_knowledge_base(
+        category="Red / conectividad",
+        user_message="No puedo acceder a recursos internos desde fuera de oficina",
+    )
+
+    assert result["articles"][0]["id"] == "KB-RAG"
+    assert result["possible_solution"] == "Solucion recuperada por RAG."
+    assert result["retrieval_mode"] == "vector"
+
+
 def test_search_knowledge_base_prioritizes_keywords():
     result = search_knowledge_base(
         category="Acceso / autenticación",

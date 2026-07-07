@@ -13,4 +13,13 @@ def knowledge_node(state: SupportState) -> SupportState:
         for article in result.get("articles", [])
     ]
     state["possible_solution"] = result.get("possible_solution", "")
+    state["retrieval_mode"] = result.get("retrieval_mode", "keyword")
+    state["knowledge_sources"] = [
+        {
+            "id": article.get("id"),
+            "title": article.get("title"),
+            "score": article.get("score"),
+        }
+        for article in result.get("articles", [])[:3]
+    ]
     return state

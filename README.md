@@ -32,6 +32,18 @@ Agentes con soporte LLM:
 - Constructor de respuesta
 - Validador
 
+## RAG local
+
+La base de conocimiento usa busqueda por keywords como fallback y puede ampliarse con RAG local usando ChromaDB y `sentence-transformers`.
+
+Para crear o actualizar el indice vectorial local:
+
+```bash
+python -m rag.ingest
+```
+
+El indice se guarda en `data/vector_store/`, que no se versiona en Git. Si ChromaDB o el modelo de embeddings no estan disponibles, el sistema continua usando la busqueda local por keywords.
+
 ## Ejecucion por consola
 
 ```bash

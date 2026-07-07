@@ -32,5 +32,7 @@ def create_support_request(request: SupportRequest) -> dict:
         "priority": result.get("priority"),
         "requires_ticket": result.get("requires_ticket"),
         "ticket_id": result.get("ticket_id"),
+        "knowledge_results": result.get("knowledge_results", []),
+        "retrieval_mode": result.get("retrieval_mode"),
         "response": result.get("final_response"),
     }
