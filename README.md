@@ -9,7 +9,7 @@ La aplicacion puede ejecutarse localmente o con Docker; solo el modelo de IA usa
 - API Key de DeepSeek
 - Docker opcional
 
-## Instalación local
+## Instalacion local
 
 ```bash
 python -m venv .venv
@@ -20,7 +20,19 @@ copy .env.example .env
 
 Configura `DEEPSEEK_API_KEY` en `.env`.
 
-## Ejecución por consola
+## Uso de DeepSeek
+
+El sistema usa DeepSeek mediante LangChain cuando `DEEPSEEK_API_KEY` esta configurada.
+Si la API no esta disponible o la respuesta no cumple el formato esperado, los agentes usan reglas locales de fallback.
+
+Agentes con soporte LLM:
+
+- Clasificador
+- Resolutor
+- Constructor de respuesta
+- Validador
+
+## Ejecucion por consola
 
 ```bash
 python -m app.main

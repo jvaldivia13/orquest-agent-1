@@ -8,13 +8,13 @@ flowchart TD
     API --> Init[initialize_request<br/>Genera request_id]
 
     Init --> Classifier[Agente Clasificador<br/>classifier_agent.py]
-    Classifier --> DeepSeek[DeepSeek API<br/>clasificacion IA]
-    DeepSeek --> Classifier
+    Classifier <-->|LLM si hay API key<br/>fallback local si falla| DeepSeek[DeepSeek API<br/>LangChain]
     Classifier --> Knowledge[Agente de Conocimiento<br/>knowledge_agent.py]
 
     Knowledge --> KB[(Base de conocimiento local<br/>data/knowledge_base.json)]
     KB --> Knowledge
     Knowledge --> Resolver[Agente Resolutor<br/>resolver_agent.py]
+    Resolver <-->|LLM opcional<br/>fallback reglas| DeepSeek
 
     Resolver --> Decision{Decision de resolucion}
     Decision -->|Solicitud ambigua<br/>needs_more_info=true| Response[Agente de Respuesta<br/>response_agent.py]
@@ -25,7 +25,9 @@ flowchart TD
     Tickets --> Ticketing
     Ticketing --> Response
 
+    Response <-->|LLM opcional<br/>fallback plantilla| DeepSeek
     Response --> Validator[Agente Validador<br/>validator_agent.py]
+    Validator <-->|LLM opcional<br/>fallback reglas| DeepSeek
     Validator --> ValidDecision{Respuesta valida?}
     ValidDecision -->|No, con reintentos disponibles| Response
     ValidDecision -->|Si, o maximo de reintentos| Logger[log_interaction<br/>logging_tools.py]
@@ -42,10 +44,10 @@ flowchart TD
 | `initialize_request` | Crea un `request_id` unico si la solicitud no lo trae. | `graph/support_graph.py` |
 | `classifier` | Clasifica la solicitud y asigna categoria/prioridad usando DeepSeek o fallback local. | `agents/classifier_agent.py` |
 | `knowledge` | Busca articulos y una posible solucion en la base de conocimiento local. | `agents/knowledge_agent.py` |
-| `resolver` | Decide si responder, pedir mas informacion o crear un ticket. | `agents/resolver_agent.py` |
+| `resolver` | Decide si responder, pedir mas informacion o crear un ticket usando DeepSeek cuando esta disponible o reglas locales como fallback. | `agents/resolver_agent.py` |
 | `ticketing` | Crea un ticket simulado en almacenamiento local. | `agents/ticketing_agent.py` |
-| `response` | Construye la respuesta que recibira el usuario. | `agents/response_agent.py` |
-| `validator` | Valida que la respuesta no este vacia, no pida datos sensibles y contenga ticket cuando corresponde. | `agents/validator_agent.py` |
+| `response` | Construye la respuesta que recibira el usuario usando DeepSeek cuando esta disponible o una plantilla local como fallback. | `agents/response_agent.py` |
+| `validator` | Valida claridad, coherencia y seguridad usando DeepSeek cuando esta disponible o reglas locales como fallback. | `agents/validator_agent.py` |
 | `log_interaction` | Registra la interaccion sin guardar el mensaje crudo del usuario. | `tools/logging_tools.py` |
 
 ## Reglas de Enrutamiento
