@@ -1,4 +1,23 @@
+from agents import response_agent
 from agents.response_agent import response_node
+
+
+def test_response_uses_llm_text_when_available(monkeypatch):
+    monkeypatch.setattr(
+        response_agent,
+        "build_support_response",
+        lambda _state: "Respuesta generada por DeepSeek.",
+    )
+
+    result = response_agent.response_node(
+        {
+            "category": "Red / conectividad",
+            "possible_solution": "Reiniciar cliente VPN.",
+            "requires_ticket": False,
+        }
+    )
+
+    assert result["draft_response"] == "Respuesta generada por DeepSeek."
 
 
 def test_response_asks_clarifying_question():

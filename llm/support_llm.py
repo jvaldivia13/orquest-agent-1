@@ -5,6 +5,7 @@ from typing import Any
 from app.config import settings
 from llm.deepseek_client import get_deepseek_reasoner
 from prompts.classifier_prompt import build_classifier_prompt
+from prompts.response_prompt import build_response_prompt
 from prompts.resolver_prompt import build_resolver_prompt
 
 
@@ -143,3 +144,18 @@ def resolve_support_request(state: dict[str, Any]) -> dict[str, Any]:
         "resolution_decision": str(parsed.get("resolution_decision", "")),
         "clarifying_question": parsed.get("clarifying_question"),
     }
+
+
+def build_support_response(state: dict[str, Any]) -> str:
+    if not settings.DEEPSEEK_API_KEY:
+        return ""
+
+    try:
+        prompt = build_response_prompt(state)
+        response = get_deepseek_reasoner().invoke(prompt)
+        content = getattr(response, "content", str(response)).strip()
+    except Exception:
+        logger.warning("Falling back to local response builder after LLM error")
+        return ""
+
+    return content

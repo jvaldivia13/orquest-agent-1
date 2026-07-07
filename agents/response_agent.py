@@ -1,7 +1,13 @@
 from graph.state import SupportState
+from llm.support_llm import build_support_response
 
 
 def response_node(state: SupportState) -> SupportState:
+    llm_response = build_support_response(state)
+    if llm_response:
+        state["draft_response"] = llm_response
+        return state
+
     if state.get("needs_more_info"):
         question = state.get("clarifying_question") or "¿Puedes compartir más detalle del problema?"
         state["draft_response"] = (
