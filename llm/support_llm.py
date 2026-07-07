@@ -7,6 +7,7 @@ from llm.deepseek_client import get_deepseek_reasoner
 from prompts.classifier_prompt import build_classifier_prompt
 from prompts.response_prompt import build_response_prompt
 from prompts.resolver_prompt import build_resolver_prompt
+from prompts.validator_prompt import build_validator_prompt
 
 
 logger = logging.getLogger(__name__)
@@ -159,3 +160,25 @@ def build_support_response(state: dict[str, Any]) -> str:
         return ""
 
     return content
+
+
+def validate_support_response(state: dict[str, Any]) -> dict[str, Any]:
+    if not settings.DEEPSEEK_API_KEY:
+        return {}
+
+    try:
+        prompt = build_validator_prompt(state)
+        response = get_deepseek_reasoner().invoke(prompt)
+        content = getattr(response, "content", str(response))
+        parsed = parse_llm_json_object(content)
+    except Exception:
+        logger.warning("Falling back to local validator after invalid LLM response")
+        return {}
+
+    if "validation_status" not in parsed:
+        return {}
+
+    return {
+        "validation_status": bool(parsed.get("validation_status")),
+        "validation_feedback": parsed.get("validation_feedback"),
+    }

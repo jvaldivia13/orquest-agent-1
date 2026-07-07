@@ -1,4 +1,23 @@
+from agents import validator_agent
 from agents.validator_agent import validator_node
+
+
+def test_validator_uses_llm_validation_when_available(monkeypatch):
+    monkeypatch.setattr(
+        validator_agent,
+        "validate_support_response",
+        lambda _state: {"validation_status": True, "validation_feedback": None},
+    )
+
+    result = validator_agent.validator_node(
+        {
+            "draft_response": "Respuesta clara.",
+            "requires_ticket": False,
+        }
+    )
+
+    assert result["validation_status"] is True
+    assert result["final_response"] == "Respuesta clara."
 
 
 def test_validator_accepts_response_with_ticket():

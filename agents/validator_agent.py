@@ -1,4 +1,5 @@
 from graph.state import SupportState
+from llm.support_llm import validate_support_response
 
 
 def _fail(state: SupportState, feedback: str) -> SupportState:
@@ -21,6 +22,14 @@ def _fail(state: SupportState, feedback: str) -> SupportState:
 def validator_node(state: SupportState) -> SupportState:
     state.setdefault("validation_retry_count", 0)
     state.setdefault("max_validation_retries", 2)
+
+    llm_validation = validate_support_response(state)
+    if llm_validation:
+        state["validation_status"] = bool(llm_validation.get("validation_status", False))
+        state["validation_feedback"] = llm_validation.get("validation_feedback")
+        if state["validation_status"]:
+            state["final_response"] = state.get("draft_response", "")
+        return state
 
     draft_response = state.get("draft_response", "")
     requires_ticket = state.get("requires_ticket", False)
