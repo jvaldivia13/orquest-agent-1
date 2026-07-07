@@ -7,52 +7,103 @@
     <link rel="stylesheet" href="/static/styles.css">
   </head>
   <body>
-    <main class="shell">
-      <section class="workspace" aria-labelledby="page-title">
-        <div class="intro">
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
           <p class="eyebrow">API local: /support/request</p>
-          <h1 id="page-title">Agentic Support Orchestrator</h1>
-          <p class="summary">
-            Prueba el flujo de clasificacion, busqueda de conocimiento, resolucion y ticketing desde el navegador.
-          </p>
+          <h1>Consola de soporte</h1>
         </div>
+        <div class="service-status" aria-label="Estado del servicio">
+          <span class="pulse"></span>
+          <span>FastAPI local</span>
+        </div>
+      </header>
 
-        <form id="support-form" class="panel">
-          <label for="message">Requerimiento de soporte</label>
-          <textarea
-            id="message"
-            name="message"
-            maxlength="2000"
-            rows="7"
-            placeholder="Ejemplo: No puedo conectarme a la VPN desde mi laptop"
-            required
-          ></textarea>
-          <div class="actions">
-            <span id="char-count">0/2000</span>
-            <button id="submit-button" type="submit">Enviar</button>
-          </div>
-        </form>
+      <section class="workspace" aria-label="Consola de prueba">
+        <section class="request-column">
+          <form id="support-form" class="panel request-panel">
+            <div class="section-heading">
+              <div>
+                <h2>Nuevo requerimiento</h2>
+                <p>Prueba la orquestacion de clasificador, conocimiento, resolutor, ticketing, respuesta y validador.</p>
+              </div>
+              <span id="char-count" class="counter">0/2000</span>
+            </div>
 
-        <section class="panel result-panel" aria-live="polite">
-          <div class="result-header">
-            <h2>Resultado</h2>
-            <span id="status" class="status">Listo</span>
-          </div>
-          <dl class="metadata">
-            <div>
-              <dt>Categoria</dt>
-              <dd id="category">-</dd>
+            <label for="message">Mensaje del usuario</label>
+            <textarea
+              id="message"
+              name="message"
+              maxlength="2000"
+              rows="9"
+              placeholder="Ejemplo: No puedo conectarme a la VPN desde mi laptop"
+              required
+            ></textarea>
+
+            <div class="actions">
+              <button id="submit-button" type="submit">Enviar solicitud</button>
+              <button id="clear-button" class="secondary" type="button">Limpiar</button>
             </div>
-            <div>
-              <dt>Prioridad</dt>
-              <dd id="priority">-</dd>
+          </form>
+
+          <section class="panel quick-panel" aria-labelledby="quick-title">
+            <div class="section-heading compact">
+              <div>
+                <h2 id="quick-title">Casos rapidos</h2>
+                <p>Escenarios frecuentes para probar el flujo.</p>
+              </div>
             </div>
-            <div>
-              <dt>Ticket</dt>
-              <dd id="ticket">-</dd>
+            <div class="quick-actions">
+              <button type="button" class="quick-case" data-message="No puedo conectarme a la VPN desde mi laptop">VPN</button>
+              <button type="button" class="quick-case" data-message="Outlook no sincroniza mi correo desde ayer">Outlook</button>
+              <button type="button" class="quick-case" data-message="Perdi mi celular y no puedo usar MFA para iniciar sesion">MFA</button>
+              <button type="button" class="quick-case" data-message="No puedo imprimir en la impresora de la oficina">Impresora</button>
             </div>
-          </dl>
-          <pre id="response" class="response">La respuesta de la API aparecera aqui.</pre>
+          </section>
+        </section>
+
+        <section class="result-column">
+          <section class="panel result-panel" aria-live="polite">
+            <div class="result-header">
+              <div>
+                <h2>Resultado del flujo</h2>
+                <p id="status-detail">Listo para procesar una solicitud.</p>
+              </div>
+              <span id="status" class="status">Listo</span>
+            </div>
+
+            <dl class="metadata">
+              <div>
+                <dt>Categoria</dt>
+                <dd id="category">-</dd>
+              </div>
+              <div>
+                <dt>Prioridad</dt>
+                <dd id="priority">-</dd>
+              </div>
+              <div>
+                <dt>Ticket</dt>
+                <dd id="ticket">-</dd>
+              </div>
+            </dl>
+
+            <div class="response-card">
+              <div class="response-title">Respuesta final</div>
+              <pre id="response" class="response">La respuesta de la API aparecera aqui.</pre>
+            </div>
+          </section>
+
+          <section class="panel history-panel" aria-labelledby="history-title">
+            <div class="section-heading compact">
+              <div>
+                <h2 id="history-title">Historial de sesion</h2>
+                <p>Ultimas solicitudes procesadas en este navegador.</p>
+              </div>
+            </div>
+            <ol id="history-list" class="history-list">
+              <li class="empty-history">Sin solicitudes procesadas.</li>
+            </ol>
+          </section>
         </section>
       </section>
     </main>

@@ -1,21 +1,29 @@
 const form = document.querySelector("#support-form");
 const messageInput = document.querySelector("#message");
 const submitButton = document.querySelector("#submit-button");
+const clearButton = document.querySelector("#clear-button");
 const charCount = document.querySelector("#char-count");
 const statusEl = document.querySelector("#status");
+const statusDetailEl = document.querySelector("#status-detail");
 const categoryEl = document.querySelector("#category");
 const priorityEl = document.querySelector("#priority");
 const ticketEl = document.querySelector("#ticket");
 const responseEl = document.querySelector("#response");
+const historyList = document.querySelector("#history-list");
+const quickCases = document.querySelectorAll(".quick-case");
 
-function setStatus(text, isError = false) {
+const historyItems = [];
+
+function setStatus(text, tone = "neutral", detail = "") {
   statusEl.textContent = text;
-  statusEl.classList.toggle("error", isError);
+  statusEl.classList.toggle("success", tone === "success");
+  statusEl.classList.toggle("error", tone === "error");
+  statusDetailEl.textContent = detail || "Listo para procesar una solicitud.";
 }
 
 function setLoading(isLoading) {
   submitButton.disabled = isLoading;
-  submitButton.textContent = isLoading ? "Enviando..." : "Enviar";
+  submitButton.textContent = isLoading ? "Procesando..." : "Enviar solicitud";
 }
 
 function updateCount() {
@@ -38,20 +46,70 @@ function renderError(error) {
   responseEl.textContent = error.message || "No se pudo completar la solicitud.";
 }
 
+function renderHistory() {
+  historyList.innerHTML = "";
+
+  if (historyItems.length === 0) {
+    const empty = document.createElement("li");
+    empty.className = "empty-history";
+    empty.textContent = "Sin solicitudes procesadas.";
+    historyList.appendChild(empty);
+    return;
+  }
+
+  historyItems.slice(0, 5).forEach((item) => {
+    const row = document.createElement("li");
+    const title = document.createElement("span");
+    const meta = document.createElement("span");
+
+    title.className = "history-title";
+    title.textContent = item.message;
+    meta.className = "history-meta";
+    meta.textContent = `${item.category} / ${item.priority} / ${item.ticket}`;
+
+    row.append(title, meta);
+    historyList.appendChild(row);
+  });
+}
+
+function pushHistory(message, data) {
+  historyItems.unshift({
+    message: message.length > 74 ? `${message.slice(0, 74)}...` : message,
+    category: data.category || "Sin categoria",
+    priority: data.priority || "Sin prioridad",
+    ticket: data.requires_ticket ? data.ticket_id || "Ticket requerido" : "Sin ticket",
+  });
+  renderHistory();
+}
+
 messageInput.addEventListener("input", updateCount);
+
+clearButton.addEventListener("click", () => {
+  messageInput.value = "";
+  updateCount();
+  messageInput.focus();
+});
+
+quickCases.forEach((button) => {
+  button.addEventListener("click", () => {
+    messageInput.value = button.dataset.message || "";
+    updateCount();
+    messageInput.focus();
+  });
+});
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const message = messageInput.value.trim();
   if (!message) {
-    setStatus("Mensaje requerido", true);
+    setStatus("Revisar", "error", "Escribe un requerimiento antes de enviar.");
     responseEl.textContent = "Escribe un requerimiento antes de enviar.";
     return;
   }
 
   setLoading(true);
-  setStatus("Procesando");
+  setStatus("Procesando", "neutral", "Ejecutando grafo de agentes local.");
 
   try {
     const response = await fetch("/support/request", {
@@ -68,13 +126,15 @@ form.addEventListener("submit", async (event) => {
 
     const data = await response.json();
     renderResult(data);
-    setStatus("Completado");
+    pushHistory(message, data);
+    setStatus("Completado", "success", "Respuesta generada por el flujo de agentes.");
   } catch (error) {
     renderError(error);
-    setStatus("Error", true);
+    setStatus("Error", "error", "No se pudo completar la solicitud.");
   } finally {
     setLoading(false);
   }
 });
 
 updateCount();
+renderHistory();

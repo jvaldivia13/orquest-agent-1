@@ -40,6 +40,15 @@ def test_root_serves_frontend():
     assert "/support/request" in response.text
 
 
+def test_root_serves_professional_testing_console():
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert "Consola de soporte" in response.text
+    assert "Casos rapidos" in response.text
+    assert "Historial de sesion" in response.text
+
+
 def test_cli_rejects_empty_message(monkeypatch, capsys):
     def fail_if_invoked(_state):
         raise AssertionError("support graph should not be invoked")
