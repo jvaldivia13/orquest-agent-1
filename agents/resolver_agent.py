@@ -1,7 +1,16 @@
 from graph.state import SupportState
+from llm.support_llm import resolve_support_request
 
 
 def resolver_node(state: SupportState) -> SupportState:
+    llm_decision = resolve_support_request(state)
+    if llm_decision:
+        state["needs_more_info"] = bool(llm_decision.get("needs_more_info", False))
+        state["requires_ticket"] = bool(llm_decision.get("requires_ticket", False))
+        state["resolution_decision"] = str(llm_decision.get("resolution_decision", ""))
+        state["clarifying_question"] = llm_decision.get("clarifying_question")
+        return state
+
     category = state.get("category", "Otro")
     possible_solution = state.get("possible_solution", "")
     priority = state.get("priority", "Media")

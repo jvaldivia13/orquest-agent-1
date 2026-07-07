@@ -1,4 +1,29 @@
+from agents import resolver_agent
 from agents.resolver_agent import resolver_node
+
+
+def test_resolver_uses_llm_decision_when_available(monkeypatch):
+    def fake_decision(_state):
+        return {
+            "requires_ticket": True,
+            "needs_more_info": False,
+            "resolution_decision": "Crear ticket por impacto reportado.",
+            "clarifying_question": None,
+        }
+
+    monkeypatch.setattr(resolver_agent, "resolve_support_request", fake_decision)
+
+    result = resolver_agent.resolver_node(
+        {
+            "category": "Software",
+            "priority": "Media",
+            "possible_solution": "Reiniciar aplicacion.",
+            "user_message": "La aplicacion critica falla para el cierre",
+        }
+    )
+
+    assert result["requires_ticket"] is True
+    assert result["resolution_decision"] == "Crear ticket por impacto reportado."
 
 
 def test_resolver_requests_more_info_for_ambiguous_message():

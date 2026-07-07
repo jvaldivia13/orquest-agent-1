@@ -5,6 +5,7 @@ from typing import Any
 from app.config import settings
 from llm.deepseek_client import get_deepseek_reasoner
 from prompts.classifier_prompt import build_classifier_prompt
+from prompts.resolver_prompt import build_resolver_prompt
 
 
 logger = logging.getLogger(__name__)
@@ -118,3 +119,27 @@ def classify_support_request(user_message: str) -> dict[str, str]:
         priority = "Media"
 
     return {"category": category, "priority": priority}
+
+
+def resolve_support_request(state: dict[str, Any]) -> dict[str, Any]:
+    if not settings.DEEPSEEK_API_KEY:
+        return {}
+
+    try:
+        prompt = build_resolver_prompt(state)
+        response = get_deepseek_reasoner().invoke(prompt)
+        content = getattr(response, "content", str(response))
+        parsed = parse_llm_json_object(content)
+    except Exception:
+        logger.warning("Falling back to local resolver after invalid LLM response")
+        return {}
+
+    if "requires_ticket" not in parsed or "needs_more_info" not in parsed:
+        return {}
+
+    return {
+        "requires_ticket": bool(parsed.get("requires_ticket")),
+        "needs_more_info": bool(parsed.get("needs_more_info")),
+        "resolution_decision": str(parsed.get("resolution_decision", "")),
+        "clarifying_question": parsed.get("clarifying_question"),
+    }
