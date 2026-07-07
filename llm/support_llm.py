@@ -1,8 +1,13 @@
 import json
+import logging
 from typing import Any
 
 from app.config import settings
 from llm.deepseek_client import get_deepseek_reasoner
+from prompts.classifier_prompt import build_classifier_prompt
+
+
+logger = logging.getLogger(__name__)
 
 
 ALLOWED_CATEGORIES = {
@@ -15,6 +20,27 @@ ALLOWED_CATEGORIES = {
 }
 
 ALLOWED_PRIORITIES = {"Baja", "Media", "Alta"}
+
+
+def parse_llm_json_object(content: str) -> dict[str, Any]:
+    text = content.strip()
+    if text.startswith("```"):
+        lines = text.splitlines()
+        if lines and lines[0].startswith("```"):
+            lines = lines[1:]
+        if lines and lines[-1].strip() == "```":
+            lines = lines[:-1]
+        text = "\n".join(lines).strip()
+
+    start = text.find("{")
+    end = text.rfind("}")
+    if start == -1 or end == -1 or end < start:
+        raise ValueError("LLM response does not contain a JSON object")
+
+    parsed = json.loads(text[start : end + 1])
+    if not isinstance(parsed, dict):
+        raise ValueError("LLM response JSON is not an object")
+    return parsed
 
 
 def _fallback_classification(user_message: str) -> dict[str, str]:
@@ -75,21 +101,15 @@ def classify_support_request(user_message: str) -> dict[str, str]:
     if not settings.DEEPSEEK_API_KEY:
         return _fallback_classification(user_message)
 
-    prompt = (
-        "Clasifica el requerimiento de soporte TI. "
-        "Devuelve solo JSON con keys category y priority. "
-        "Categorias permitidas: Acceso / autenticacion, Red / conectividad, Hardware, "
-        "Software, Solicitud administrativa, Otro. Prioridades: Baja, Media, Alta. "
-        f"Mensaje: {user_message}"
-    )
-
     try:
+        prompt = build_classifier_prompt(user_message)
         response = get_deepseek_reasoner().invoke(prompt)
         content = getattr(response, "content", str(response))
-        parsed: dict[str, Any] = json.loads(content)
+        parsed = parse_llm_json_object(content)
         category = str(parsed.get("category", "Otro"))
         priority = str(parsed.get("priority", "Media")).capitalize()
     except Exception:
+        logger.warning("Falling back to local classification after invalid LLM response")
         return _fallback_classification(user_message)
 
     if category not in ALLOWED_CATEGORIES:
