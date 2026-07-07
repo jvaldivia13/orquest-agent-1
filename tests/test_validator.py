@@ -20,6 +20,30 @@ def test_validator_uses_llm_validation_when_available(monkeypatch):
     assert result["final_response"] == "Respuesta clara."
 
 
+def test_validator_rejected_llm_validation_increments_retry(monkeypatch):
+    monkeypatch.setattr(
+        validator_agent,
+        "validate_support_response",
+        lambda _state: {
+            "validation_status": False,
+            "validation_feedback": "La respuesta no es suficientemente clara.",
+        },
+    )
+
+    result = validator_agent.validator_node(
+        {
+            "draft_response": "Respuesta ambigua.",
+            "requires_ticket": False,
+            "validation_retry_count": 0,
+            "max_validation_retries": 2,
+        }
+    )
+
+    assert result["validation_status"] is False
+    assert result["validation_retry_count"] == 1
+    assert result["validation_feedback"] == "La respuesta no es suficientemente clara."
+
+
 def test_validator_accepts_response_with_ticket():
     result = validator_node(
         {

@@ -25,11 +25,17 @@ def validator_node(state: SupportState) -> SupportState:
 
     llm_validation = validate_support_response(state)
     if llm_validation:
-        state["validation_status"] = bool(llm_validation.get("validation_status", False))
-        state["validation_feedback"] = llm_validation.get("validation_feedback")
-        if state["validation_status"]:
+        if bool(llm_validation.get("validation_status", False)):
+            state["validation_status"] = True
+            state["validation_feedback"] = llm_validation.get("validation_feedback")
             state["final_response"] = state.get("draft_response", "")
-        return state
+            return state
+
+        feedback = (
+            llm_validation.get("validation_feedback")
+            or "Validacion LLM rechazo la respuesta."
+        )
+        return _fail(state, str(feedback))
 
     draft_response = state.get("draft_response", "")
     requires_ticket = state.get("requires_ticket", False)
